@@ -29,21 +29,21 @@ customer-churn-prediction-ml/
 ├── Data/
 │   ├── Telco-Customer-Churn.csv        # Original raw dataset
 │   ├── cleaned_data.csv                # Cleaned dataset
-│   └── preprocessed.csv               # Preprocessed dataset
+│   └── preprocessed.csv                # Preprocessed dataset
 │
 ├── Models/
-│   ├── xgb_model.joblib              # Trained XGBoost model
-│   ├── scaler.joblib                 # Saved StandardScaler
-│   └── feature_columns.joblib        # Feature columns used in model
+│   ├── xgb_model.joblib                # Trained XGBoost model
+│   ├── scaler.joblib                   # Saved StandardScaler
+│   └── feature_columns.joblib          # Feature columns used in model
 │
 ├── Notebooks/
-│   ├── 01_data_cleaning.ipynb        
+│   ├── 01_data_cleaning.ipynb          # Data cleaning steps
 │   ├── 02_data_preprocessing.ipynb   
 │   ├── 03_eda.ipynb                
-│   ├── 04_model_training.ipynb     
-│   └── 05_model_evaluation.ipynb   
+│   ├── 04_model_training.ipynb       
+│   └── 05_model_evaluation.ipynb     
 │
-└── README.md                    
+└── README.md                         
 
 ---
 
