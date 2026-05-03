@@ -27,17 +27,17 @@ and build a model that predicts whether a customer will churn or not.
 customer-churn-prediction-ml/
 │
 ├── Data/
-│   ├── Telco-Customer-Churn.csv        # Original raw dataset
-│   ├── cleaned_data.csv                # Cleaned dataset
-│   └── preprocessed.csv                # Preprocessed dataset
+│   ├── Telco-Customer-Churn.csv     
+│   ├── cleaned_data.csv               
+│   └── preprocessed.csv               
 │
 ├── Models/
-│   ├── xgb_model.joblib                # Trained XGBoost model
-│   ├── scaler.joblib                   # Saved StandardScaler
-│   └── feature_columns.joblib          # Feature columns used in model
+│   ├── xgb_model.joblib                
+│   ├── scaler.joblib                  
+│   └── feature_columns.joblib         
 │
 ├── Notebooks/
-│   ├── 01_data_cleaning.ipynb          # Data cleaning steps
+│   ├── 01_data_cleaning.ipynb          
 │   ├── 02_data_preprocessing.ipynb   
 │   ├── 03_eda.ipynb                
 │   ├── 04_model_training.ipynb       
