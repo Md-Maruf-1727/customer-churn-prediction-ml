@@ -24,26 +24,27 @@ and build a model that predicts whether a customer will churn or not.
 ---
 
 ## 🗂️ Project Structure
+
 customer-churn-prediction-ml/
 │
 ├── Data/
-│   ├── Telco-Customer-Churn.csv     
-│   ├── cleaned_data.csv               
-│   └── preprocessed.csv               
+│   ├── Telco-Customer-Churn.csv
+│   ├── cleaned_data.csv
+│   └── preprocessed.csv
 │
 ├── Models/
-│   ├── xgb_model.joblib                
-│   ├── scaler.joblib                  
-│   └── feature_columns.joblib         
+│   ├── xgb_model.joblib
+│   ├── scaler.joblib
+│   └── feature_columns.joblib
 │
 ├── Notebooks/
-│   ├── 01_data_cleaning.ipynb          
-│   ├── 02_data_preprocessing.ipynb   
-│   ├── 03_eda.ipynb                
-│   ├── 04_model_training.ipynb       
-│   └── 05_model_evaluation.ipynb     
+│   ├── 01_data_cleaning.ipynb
+│   ├── 02_data_preprocessing.ipynb
+│   ├── 03_eda.ipynb
+│   ├── 04_model_training.ipynb
+│   └── 05_model_evaluation.ipynb
 │
-└── README.md                         
+└── README.md
 
 ---
 
