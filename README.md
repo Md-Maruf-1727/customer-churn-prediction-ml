@@ -25,6 +25,7 @@ and build a model that predicts whether a customer will churn or not.
 
 ## 🗂️ Project Structure
 
+```
 customer-churn-prediction-ml/
 │
 ├── Data/
@@ -45,6 +46,7 @@ customer-churn-prediction-ml/
 │   └── 05_model_evaluation.ipynb
 │
 └── README.md
+````
 
 ---
 
