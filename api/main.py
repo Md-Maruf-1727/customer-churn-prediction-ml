@@ -4,6 +4,7 @@ import joblib
 
 from api.preprocess import preprocess 
 from utils.path import get_model_path
+from api.schema import ChurnInput
 
 app = FastAPI()
 
@@ -16,13 +17,15 @@ def home():
     return {"message": "app is running"}
 
 @app.post("/predict")
-def predict(data: dict):
+def predict(data: ChurnInput):
 
     #JSON to DataFrame
-    pd = pd.DataFrame([data])
+    pd = pd.DataFrame([data.dict()])
 
     #preprocessing
     df = preprocess(df)
+
+    df = df.reindex(columns=feature_columns, fill_value=0)
 
     #feature alognment
     df = df[feature_columns]

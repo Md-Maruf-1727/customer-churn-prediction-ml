@@ -1,65 +1,85 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Customer Churn Prediction</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f6f8;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            background: white;
-            padding: 20px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        select, input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-        }
-        button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 10px;
-            background: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Customer Churn Predictor</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #eef2f7;
+    padding: 20px;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-top: 10px;
+    display: block;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.result {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <h2>Customer Churn Prediction</h2>
 
-```
+<h2>Customer Churn Prediction</h2>
+
+<!-- BASIC INFO -->
 <label>Gender</label>
 <select id="gender">
     <option>Male</option>
     <option>Female</option>
+</select>
+
+<label>Senior Citizen</label>
+<select id="senior">
+    <option value="0">No</option>
+    <option value="1">Yes</option>
 </select>
 
 <label>Partner</label>
@@ -74,13 +94,73 @@
     <option>No</option>
 </select>
 
-<label>Tenure</label>
-<input type="number" id="tenure">
+<!-- SERVICE INFO -->
+<label>Phone Service</label>
+<select id="phone">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Multiple Lines</label>
+<select id="multiple">
+    <option>Yes</option>
+    <option>No</option>
+    <option>No phone service</option>
+</select>
 
 <label>Internet Service</label>
 <select id="internet">
     <option>DSL</option>
     <option>Fiber optic</option>
+    <option>No</option>
+</select>
+
+<label>Online Security</label>
+<select id="security">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Online Backup</label>
+<select id="backup">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Device Protection</label>
+<select id="device">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Tech Support</label>
+<select id="tech">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Streaming TV</label>
+<select id="tv">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Streaming Movies</label>
+<select id="movie">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Contract</label>
+<select id="contract">
+    <option>Month-to-month</option>
+    <option>One year</option>
+    <option>Two year</option>
+</select>
+
+<label>Paperless Billing</label>
+<select id="paper">
+    <option>Yes</option>
     <option>No</option>
 </select>
 
@@ -91,52 +171,61 @@
     <option>Credit card (automatic)</option>
 </select>
 
+<!-- NUMERIC -->
+<label>Tenure</label>
+<input id="tenure" type="number">
+
 <label>Monthly Charges</label>
-<input type="number" id="monthly">
+<input id="monthly" type="number">
 
 <label>Total Charges</label>
-<input type="number" id="total">
+<input id="total" type="number">
 
 <button onclick="predict()">Predict</button>
 
 <div class="result" id="result"></div>
-```
 
 </div>
 
 <script>
-function predict() {
+async function predict() {
 
     const data = {
         gender: document.getElementById("gender").value,
+        SeniorCitizen: Number(document.getElementById("senior").value),
         Partner: document.getElementById("partner").value,
         Dependents: document.getElementById("dependents").value,
-        tenure: parseInt(document.getElementById("tenure").value),
+        tenure: Number(document.getElementById("tenure").value),
+        PhoneService: document.getElementById("phone").value,
+        MultipleLines: document.getElementById("multiple").value,
         InternetService: document.getElementById("internet").value,
+        OnlineSecurity: document.getElementById("security").value,
+        OnlineBackup: document.getElementById("backup").value,
+        DeviceProtection: document.getElementById("device").value,
+        TechSupport: document.getElementById("tech").value,
+        StreamingTV: document.getElementById("tv").value,
+        StreamingMovies: document.getElementById("movie").value,
+        Contract: document.getElementById("contract").value,
+        PaperlessBilling: document.getElementById("paper").value,
         PaymentMethod: document.getElementById("payment").value,
-        MonthlyCharges: parseFloat(document.getElementById("monthly").value),
-        TotalCharges: parseFloat(document.getElementById("total").value)
+        MonthlyCharges: Number(document.getElementById("monthly").value),
+        TotalCharges: Number(document.getElementById("total").value)
     };
 
-    // 🔥 এখানে তোমার API URL বসাবে
-    const API_URL = "http://127.0.0.1:8000/predict"; 
-
-    fetch(API_URL, {
+    const response = await fetch("http://127.0.0.1:8000/predict", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        document.getElementById("result").innerText =
-            "Prediction: " + (result.churn_prediction === 1 ? "Churn" : "No Churn");
-    })
-    .catch(error => {
-        document.getElementById("result").innerText = "Error connecting to API";
-        console.error(error);
     });
+
+    const result = await response.json();
+
+    let label = result.result;
+
+    document.getElementById("result").innerHTML =
+        "Prediction: <b>" + label + "</b>";
 }
 </script>
 
