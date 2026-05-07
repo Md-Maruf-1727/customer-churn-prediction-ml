@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Churn Prediction</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Customer Churn Prediction</h2>
+
+```
+<label>Gender</label>
+<select id="gender">
+    <option>Male</option>
+    <option>Female</option>
+</select>
+
+<label>Partner</label>
+<select id="partner">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Dependents</label>
+<select id="dependents">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+
+<label>Tenure</label>
+<input type="number" id="tenure">
+
+<label>Internet Service</label>
+<select id="internet">
+    <option>DSL</option>
+    <option>Fiber optic</option>
+    <option>No</option>
+</select>
+
+<label>Payment Method</label>
+<select id="payment">
+    <option>Electronic check</option>
+    <option>Mailed check</option>
+    <option>Credit card (automatic)</option>
+</select>
+
+<label>Monthly Charges</label>
+<input type="number" id="monthly">
+
+<label>Total Charges</label>
+<input type="number" id="total">
+
+<button onclick="predict()">Predict</button>
+
+<div class="result" id="result"></div>
+```
+
+</div>
+
+<script>
+function predict() {
+
+    const data = {
+        gender: document.getElementById("gender").value,
+        Partner: document.getElementById("partner").value,
+        Dependents: document.getElementById("dependents").value,
+        tenure: parseInt(document.getElementById("tenure").value),
+        InternetService: document.getElementById("internet").value,
+        PaymentMethod: document.getElementById("payment").value,
+        MonthlyCharges: parseFloat(document.getElementById("monthly").value),
+        TotalCharges: parseFloat(document.getElementById("total").value)
+    };
+
+    // 🔥 এখানে তোমার API URL বসাবে
+    const API_URL = "http://127.0.0.1:8000/predict"; 
+
+    fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        document.getElementById("result").innerText =
+            "Prediction: " + (result.churn_prediction === 1 ? "Churn" : "No Churn");
+    })
+    .catch(error => {
+        document.getElementById("result").innerText = "Error connecting to API";
+        console.error(error);
+    });
+}
+</script>
+
+</body>
+</html>
