@@ -1,198 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Customer Churn Predictor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Predictor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #eef2f7;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
 
-<style>
-body {
-    font-family: Arial;
-    background: #eef2f7;
-    padding: 20px;
-}
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
 
-.container {
-    max-width: 650px;
-    margin: auto;
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-}
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
 
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
 
-label {
-    margin-top: 10px;
-    display: block;
-    font-weight: bold;
-}
+        label {
+            margin-top: 10px;
+            display: block;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
 
-input, select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
 
-button {
-    width: 100%;
-    margin-top: 20px;
-    padding: 12px;
-    background: #007bff;
-    color: white;
-    border: none;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
+        .full-width {
+            grid-column: span 2;
+        }
 
-button:hover {
-    background: #0056b3;
-}
+        button {
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-.result {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 18px;
-}
-</style>
+        button:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .churn-yes { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+        .churn-no { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
+    <h2>Customer Churn Prediction</h2>
 
-<h2>Customer Churn Prediction</h2>
+    <div class="form-grid">
+        <div>
+            <label>Gender</label>
+            <select id="gender">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </div>
 
-<!-- BASIC INFO -->
-<label>Gender</label>
-<select id="gender">
-    <option>Male</option>
-    <option>Female</option>
-</select>
+        <div>
+            <label>Senior Citizen</label>
+            <select id="senior">
+                <option>No</option>
+                <option>Yes</option>
+            </select>
+        </div>
 
-<label>Senior Citizen</label>
-<select id="senior">
-    <option value="0">No</option>
-    <option value="1">Yes</option>
-</select>
+        <div>
+            <label>Partner</label>
+            <select id="partner">
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
 
-<label>Partner</label>
-<select id="partner">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Dependents</label>
+            <select id="dependents">
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
 
-<label>Dependents</label>
-<select id="dependents">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Phone Service</label>
+            <select id="phone">
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
 
-<!-- SERVICE INFO -->
-<label>Phone Service</label>
-<select id="phone">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Multiple Lines</label>
+            <select id="multiple">
+                <option>No</option>
+                <option>Yes</option>
+                <option>No phone service</option>
+            </select>
+        </div>
 
-<label>Multiple Lines</label>
-<select id="multiple">
-    <option>Yes</option>
-    <option>No</option>
-    <option>No phone service</option>
-</select>
+        <div>
+            <label>Internet Service</label>
+            <select id="internet">
+                <option>Fiber optic</option>
+                <option>DSL</option>
+                <option>No</option>
+            </select>
+        </div>
 
-<label>Internet Service</label>
-<select id="internet">
-    <option>DSL</option>
-    <option>Fiber optic</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Online Security</label>
+            <select id="security">
+                <option>No</option>
+                <option>Yes</option>
+                <option>No internet service</option>
+            </select>
+        </div>
 
-<label>Online Security</label>
-<select id="security">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Online Backup</label>
+            <select id="backup">
+                <option>No</option>
+                <option>Yes</option>
+                <option>No internet service</option>
+            </select>
+        </div>
 
-<label>Online Backup</label>
-<select id="backup">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Device Protection</label>
+            <select id="device">
+                <option>No</option>
+                <option>Yes</option>
+                <option>No internet service</option>
+            </select>
+        </div>
 
-<label>Device Protection</label>
-<select id="device">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Tech Support</label>
+            <select id="tech">
+                <option>No</option>
+                <option>Yes</option>
+                <option>No internet service</option>
+            </select>
+        </div>
 
-<label>Tech Support</label>
-<select id="tech">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Contract</label>
+            <select id="contract">
+                <option>Month-to-month</option>
+                <option>One year</option>
+                <option>Two year</option>
+            </select>
+        </div>
 
-<label>Streaming TV</label>
-<select id="tv">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div class="full-width">
+            <label>Payment Method</label>
+            <select id="payment">
+                <option>Electronic check</option>
+                <option>Mailed check</option>
+                <option>Credit card (automatic)</option>
+                <option>Bank transfer (automatic)</option>
+            </select>
+        </div>
 
-<label>Streaming Movies</label>
-<select id="movie">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <select id="tv" style="display:none"><option>No</option></select>
+        <select id="movie" style="display:none"><option>No</option></select>
+        <select id="paper" style="display:none"><option>Yes</option></select>
 
-<label>Contract</label>
-<select id="contract">
-    <option>Month-to-month</option>
-    <option>One year</option>
-    <option>Two year</option>
-</select>
+        <div>
+            <label>Tenure (Months)</label>
+            <input id="tenure" type="number" value="1">
+        </div>
 
-<label>Paperless Billing</label>
-<select id="paper">
-    <option>Yes</option>
-    <option>No</option>
-</select>
+        <div>
+            <label>Monthly Charges</label>
+            <input id="monthly" type="number" value="29.85">
+        </div>
 
-<label>Payment Method</label>
-<select id="payment">
-    <option>Electronic check</option>
-    <option>Mailed check</option>
-    <option>Credit card (automatic)</option>
-</select>
+        <div class="full-width">
+            <label>Total Charges</label>
+            <input id="total" type="number" value="29.85">
+        </div>
+    </div>
 
-<!-- NUMERIC -->
-<label>Tenure</label>
-<input id="tenure" type="number">
+    <button onclick="predict()">Predict Churn Status</button>
 
-<label>Monthly Charges</label>
-<input id="monthly" type="number">
-
-<label>Total Charges</label>
-<input id="total" type="number">
-
-<button onclick="predict()">Predict</button>
-
-<div class="result" id="result"></div>
-
+    <div class="result" id="result"></div>
 </div>
 
 <script>
 async function predict() {
+    const resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = "Processing...";
+    resultDiv.className = "result";
 
     const data = {
         gender: document.getElementById("gender").value,
-        SeniorCitizen: Number(document.getElementById("senior").value),
+        SeniorCitizen: document.getElementById("senior").value, // "Yes" or "No"
         Partner: document.getElementById("partner").value,
         Dependents: document.getElementById("dependents").value,
         tenure: Number(document.getElementById("tenure").value),
@@ -212,20 +259,28 @@ async function predict() {
         TotalCharges: Number(document.getElementById("total").value)
     };
 
-    const response = await fetch("http://127.0.0.1:8000/predict", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+    try {
+        // নিশ্চিত করুন আপনার উভিকর্ন ৮০৮০ পোর্টে চলছে
+        const response = await fetch("http://127.0.0.1:8080/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
 
-    const result = await response.json();
+        const resData = await response.json();
 
-    let label = result.result;
-
-    document.getElementById("result").innerHTML =
-        "Prediction: <b>" + label + "</b>";
+        if (response.ok) {
+            const isChurn = resData.churn_prediction === 1;
+            resultDiv.className = isChurn ? "result churn-yes" : "result churn-no";
+            resultDiv.innerHTML = `Result: <b>${resData.result}</b><br>Confidence: ${(resData.confidence * 100).toFixed(2)}%`;
+        } else {
+            resultDiv.innerHTML = "Error: " + (resData.detail[0]?.msg || "Invalid Input");
+            resultDiv.style.color = "red";
+        }
+    } catch (error) {
+        resultDiv.innerHTML = "Error: API is not running!";
+        resultDiv.style.color = "red";
+    }
 }
 </script>
 
