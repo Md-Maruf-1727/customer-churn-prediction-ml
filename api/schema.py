@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class ChurnInput(BaseModel):
     gender: str
-    SeniorCitizen: int
+    SeniorCitizen: str
     Partner: str
     Dependents: str
     tenure: int

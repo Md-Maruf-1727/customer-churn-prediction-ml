@@ -40,11 +40,12 @@ def predict(data: ChurnInput):
     df = df.reindex(columns=feature_columns, fill_value=0)
 
     # scaling
-    df_scaled = scaler.transform(df)
+    continuous_cols = ['tenure', 'MonthlyCharges', 'TotalCharges', 'Average']
+    df[continuous_cols] = scaler.transform(df[continuous_cols])
 
     # prediction
-    prediction = model.predict(df_scaled)
-    proba = model.predict_proba(df_scaled)
+    prediction = model.predict(df)
+    proba = model.predict_proba(df)
 
     result = "Yes (Churn)" if prediction[0] == 1 else "No (Not Churn)"
     confidence = float(max(proba[0]))
