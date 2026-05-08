@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import pandas as pd
 import joblib
 
@@ -23,8 +25,8 @@ feature_columns = joblib.load(get_model_path("feature_columns.joblib"))
 
 
 @app.get("/")
-def home():
-    return {"message": "app is running"}
+async def read_index():
+    return FileResponse("static/index.html")
 
 
 @app.post("/predict")
