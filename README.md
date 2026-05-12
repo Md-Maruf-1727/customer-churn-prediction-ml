@@ -362,8 +362,8 @@ streamlit run "Streamlit app demo/streamlit_app.py"
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/churnguard-ai.git
-cd churnguard-ai
+git clone [https://github.com/Md-Maruf-1727/customer-churn-prediction-ml.git]
+cd customer-churn-prediction-ml
 ```
 
 ---
