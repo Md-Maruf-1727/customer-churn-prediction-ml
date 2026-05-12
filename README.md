@@ -10,7 +10,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
 
 > **Predict which customers are about to leave — before they do.**  
-> An end-to-end machine learning pipeline with REST API, interactive web UI, and Streamlit dashboard.
+> An end-to-end machine learning pipeline with FastAPI backend, interactive web UI, and Streamlit dashboard.
 
 ---
 
@@ -32,7 +32,7 @@
 - [Dataset](#-dataset)
 - [ML Pipeline](#-ml-pipeline)
 - [Model Performance](#-model-performance)
-- [API Reference](#-api-reference)
+- [FastAPI Reference](#-fastapi-reference)
 - [Demo Apps](#-demo-apps)
 - [Getting Started](#-getting-started)
 - [Docker Deployment](#-docker-deployment)
@@ -42,11 +42,11 @@
 
 ## 🎯 Overview
 
-**ChurnGuard AI** is a production-ready machine learning system that predicts whether a telecom customer will churn (leave the service). Built on IBM's Telco Customer Churn dataset (7,032 customers), it combines thorough data analysis with an XGBoost classifier to deliver actionable predictions through both a REST API and interactive dashboards.
+**ChurnGuard AI** is a production-ready machine learning system that predicts whether a telecom customer will churn (leave the service). Built on IBM's Telco Customer Churn dataset (7,032 customers), it combines thorough data analysis with an XGBoost classifier to deliver actionable predictions through both a FastAPI backend and interactive dashboards.
 
 **Who is this for?**
 - 📊 **Business teams** — Get instant churn risk scores to prioritize retention campaigns
-- 🧑‍💻 **Developers** — Integrate predictions into any system via the REST API
+- 🧑‍💻 **Developers** — Integrate predictions into any system via the FastAPI endpoint
 - 📈 **Data scientists** — Study a clean, end-to-end ML workflow from raw data to deployment
 
 ---
@@ -109,47 +109,49 @@ Tenure                     ████                               4.2%
 ChurnGuard-AI/
 │
 ├── 📂 Data/
-│   ├── Telco-Customer-Churn.csv       # Raw dataset (7,043 customers, 21 features)
-│   ├── cleaned_data.csv               # After null handling & type fixes
-│   └── preprocessed.csv              # Encoded & feature-engineered data
+│   ├── Telco-Customer-Churn.csv         # Raw dataset (7,043 customers, 21 features)
+│   ├── cleaned_data.csv                 # After null handling & type fixes
+│   └── preprocessed.csv                # Encoded & feature-engineered data
 │
 ├── 📂 Models/
-│   ├── xgb_model.joblib              # Trained XGBoost model (GridSearchCV optimized)
-│   ├── scaler.joblib                 # StandardScaler for continuous features
-│   └── feature_columns.joblib        # Ordered feature list for inference
+│   ├── xgb_model.joblib                 # Trained XGBoost model (GridSearchCV optimized)
+│   ├── scaler.joblib                    # StandardScaler for continuous features
+│   └── feature_columns.joblib          # Ordered feature list for inference
 │
 ├── 📂 NoteBooks/
-│   ├── 01_data_cleaning.ipynb        # EDA, null handling, type corrections
-│   ├── 02_data_preprocessing.ipynb   # Encoding, feature engineering
-│   ├── 03_eda_visualization.ipynb    # Deep visual analysis & business insights
-│   ├── 04_model_training.ipynb       # Multi-model training & hyperparameter tuning
-│   └── 05_model_evaluation.ipynb     # Final evaluation & ROC analysis
+│   ├── 01_data_cleaning.ipynb           # Null handling, type corrections, EDA
+│   ├── 02_data_preprocessing.ipynb      # Encoding & feature engineering
+│   ├── 03_eda_visualization.ipynb       # Deep visual analysis & business insights
+│   ├── 04_model_training.ipynb          # Multi-model training & hyperparameter tuning
+│   └── 05_model_evaluation.ipynb        # Final evaluation & ROC analysis
 │
 ├── 📂 api/
-│   ├── main.py                       # FastAPI app with /predict endpoint
-│   ├── preprocess.py                 # Inference-time preprocessing logic
-│   └── schema.py                     # Pydantic input validation schema
+│   ├── main.py                          # FastAPI app with /predict endpoint
+│   ├── preprocess.py                    # Inference-time preprocessing logic
+│   └── schema.py                        # Pydantic input validation schema
 │
 ├── 📂 src/
-│   ├── 01_data_cleaning.py           # Script version of notebook 01
-│   ├── 02_data_preprocessing.py      # Script version of notebook 02
-│   ├── 03_eda_visualization.py       # Script version of notebook 03
-│   ├── 04_model_training.py          # Script version of notebook 04
-│   └── 05_model_evaluation.py        # Script version of notebook 05
+│   ├── 01_data_cleaning.py              # Script version of notebook 01
+│   ├── 02_data_preprocessing.py         # Script version of notebook 02
+│   ├── 03_eda_visualization.py          # Script version of notebook 03
+│   ├── 04_model_training.py             # Script version of notebook 04
+│   └── 05_model_evaluation.py           # Script version of notebook 05
 │
 ├── 📂 static/
-│   ├── demo app/
-│   │   ├── api connected.gif         # Demo of web UI connected to API
-│   │   └── index.html                # Standalone HTML prediction interface
-│   └── streamlit_app.py              # ChurnGuard AI dashboard (Streamlit)
+│   └── demo app/
+│       ├── api connected.gif            # Demo of web UI connected to FastAPI
+│       └── index.html                   # Standalone HTML prediction interface
+│
+├── 📂 Streamlit app demo/
+│   └── streamlit_app.py                 # ChurnGuard AI Streamlit dashboard
 │
 ├── 📂 utils/
-│   └── path.py                       # Dynamic path resolution helper
+│   └── path.py                          # Dynamic path resolution helper
 │
-├── 📂 Venv/                          # Virtual environment
-├── 🐳 Dockerfile                     # Docker container config
-├── 📋 requirements.txt               # Python dependencies
-└── 📖 README.md                      # You are here
+├── 📂 Venv/                             # Virtual environment
+├── 🐳 Dockerfile                        # Docker container configuration
+├── 📋 requirements.txt                  # Python dependencies
+└── 📖 README.md                         # You are here
 ```
 
 ---
@@ -270,11 +272,19 @@ ROC-AUC   : 0.830   ← Strong discrimination ability
 
 ---
 
-## 🌐 API Reference
+## 🌐 FastAPI Reference
+
+This project uses **FastAPI** to serve the trained model with two endpoints.
+
+### `GET /`
+Opens the HTML prediction form directly in the browser at `http://localhost:8080`.
+
+---
 
 ### `POST /predict`
+Accepts customer data as JSON and returns a churn prediction with confidence score.
 
-Predict churn risk for a single customer.
+**Interactive API Docs (Swagger UI):** `http://localhost:8080/docs`
 
 **Request Body:**
 ```json
@@ -314,90 +324,176 @@ Predict churn risk for a single customer.
 |---|---|---|
 | `churn_prediction` | `int` | `1` = Churn, `0` = No Churn |
 | `result` | `string` | Human-readable verdict |
-| `confidence` | `float` | Model confidence (0.0 – 1.0) |
-
-### `GET /`
-
-Returns the interactive HTML prediction interface.
+| `confidence` | `float` | Model confidence score (0.0 – 1.0) |
 
 ---
 
 ## 🖥️ Demo Apps
 
-### 1. Streamlit Dashboard (`streamlit_app.py`)
-A fully-styled, dark-themed dashboard with form inputs grouped by Demographics, Services, and Billing. Displays churn probability with a progress bar and metric chips.
+Two separate interfaces are available to interact with the model.
 
-**Run locally:**
-```bash
-streamlit run static/streamlit_app.py
+### 1. 🌐 HTML Web Interface
+A lightweight prediction form served directly by FastAPI. No extra setup needed — just start the server and open your browser.
+
+```
+http://localhost:8080
 ```
 
-### 2. HTML Web Interface (`static/demo app/index.html`)
-A lightweight, standalone HTML form connected to the FastAPI backend. No framework required — just open in a browser after starting the API.
+### 2. 📊 Streamlit Dashboard
+A dark-themed, professional dashboard with inputs grouped into Demographics, Services, and Billing sections. Displays churn probability with a visual progress bar and metric chips.
+
+```bash
+streamlit run "Streamlit app demo/streamlit_app.py"
+```
+> Opens automatically at `http://localhost:8501`
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- Python 3.11+
-- pip
+> Follow the steps below to run the project locally from scratch.
 
-### 1. Clone the Repository
+### Prerequisites
+- [Python 3.11+](https://www.python.org/downloads/)
+- [Git](https://git-scm.com/downloads)
+
+---
+
+### Step 1 — Clone the Repository
+
 ```bash
 git clone https://github.com/your-username/churnguard-ai.git
 cd churnguard-ai
 ```
 
-### 2. Create Virtual Environment
+---
+
+### Step 2 — Create a Virtual Environment
+
+A virtual environment keeps this project's dependencies isolated from other projects on your machine.
+
+**Windows:**
 ```bash
 python -m venv venv
-
-# Windows
 venv\Scripts\activate
+```
 
-# macOS / Linux
+**macOS / Linux:**
+```bash
+python -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Install Dependencies
+> Once activated, you will see `(venv)` at the start of your terminal prompt.
+
+---
+
+### Step 3 — Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run the Notebooks (Optional — models already saved)
-```bash
-jupyter notebook NoteBooks/
-```
-Run notebooks `01` through `05` in order to reproduce the full pipeline.
+> This installs all required libraries including XGBoost, FastAPI, Streamlit, and more.
 
-### 5. Start the API
+---
+
+### Step 4 — Start the FastAPI Server
+
 ```bash
 uvicorn api.main:app --reload --port 8080
 ```
-API docs available at: `http://localhost:8080/docs`
 
-### 6. Launch Streamlit App
-```bash
-streamlit run static/streamlit_app.py
+You should see the following in your terminal:
 ```
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+```
+
+Now open your browser and go to:
+
+| URL | What You Will See |
+|---|---|
+| `http://localhost:8080` | HTML Prediction Form |
+| `http://localhost:8080/docs` | FastAPI Swagger UI — test the API interactively |
+
+---
+
+### Step 5 — Launch the Streamlit Dashboard
+
+> Open a **new terminal window** — keep the FastAPI server running in the previous one.
+
+```bash
+streamlit run "Streamlit app demo/streamlit_app.py"
+```
+
+Your browser will open automatically at:
+```
+http://localhost:8501
+```
+
+---
+
+### Step 6 — Run the Notebooks (Optional)
+
+The trained model is already saved in the `Models/` folder. If you want to reproduce the full pipeline from scratch, run the notebooks in order:
+
+```bash
+jupyter notebook NoteBooks/
+```
+
+Run `01` through `05` sequentially.
+
+---
+
+### 📌 Quick Reference — What Runs Where
+
+| What | Command | URL |
+|---|---|---|
+| FastAPI Backend | `uvicorn api.main:app --reload --port 8080` | `http://localhost:8080` |
+| HTML Prediction Form | *(auto — server must be running)* | `http://localhost:8080` |
+| Swagger API Docs | *(auto — server must be running)* | `http://localhost:8080/docs` |
+| Streamlit Dashboard | `streamlit run "Streamlit app demo/streamlit_app.py"` | `http://localhost:8501` |
 
 ---
 
 ## 🐳 Docker Deployment
 
-### Build & Run
-```bash
-# Build the image
-docker build -t churnguard-ai .
+> Use Docker to run the entire application without installing Python or any dependencies locally.
 
-# Run the container
+### Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+
+### Build the Image
+```bash
+docker build -t churnguard-ai .
+```
+> This may take a few minutes on the first run while dependencies are downloaded.
+
+### Run the Container
+```bash
 docker run -p 8080:8080 churnguard-ai
 ```
 
-Access the app at: `http://localhost:8080`
+### Access the App
+| URL | What You Will See |
+|---|---|
+| `http://localhost:8080` | HTML Prediction Form |
+| `http://localhost:8080/docs` | FastAPI Swagger UI |
 
-The Dockerfile uses `python:3.11-slim`, installs all dependencies from `requirements.txt`, and starts the FastAPI server via `uvicorn` on port `8080`.
+### Stop the Container
+```bash
+# List running containers
+docker ps
+
+# Stop by container ID
+docker stop <container-id>
+```
+
+> **About the Dockerfile:**
+> - `python:3.11-slim` — lightweight base image for faster builds and smaller size
+> - `PYTHONDONTWRITEBYTECODE=1` — prevents unnecessary `.pyc` files from being created
+> - `PYTHONUNBUFFERED=1` — ensures logs appear in real-time in the terminal
+> - Port `8080` is exposed for the FastAPI server
 
 ---
 
@@ -425,9 +521,5 @@ This project is open-source and available under the [MIT License](LICENSE).
 ---
 
 <div align="center">
-
-**Built with ❤️ for smarter customer retention**
-
-*If this project helped you, please give it a ⭐ on GitHub!*
 
 </div>
