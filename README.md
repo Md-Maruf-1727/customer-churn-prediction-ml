@@ -513,6 +513,10 @@ docker stop <container-id>
 | **Notebooks** | Jupyter |
 
 ---
+## 👤 Author
+
+**Md. Maruf**
+GitHub: [github.com/Md-Maruf-1727](https://github.com/Md-Maruf-1727)
 
 <div align="center">
 
