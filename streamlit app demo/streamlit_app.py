@@ -292,8 +292,8 @@ st.markdown("""
 @st.cache_resource
 def load_assets():
     try:
-        model        = joblib.load(get_model_path("xgb_model.joblib"))
-        scaler       = joblib.load(get_model_path("scaler.joblib"))
+        model = joblib.load(get_model_path("xgb_model.joblib"))
+        scaler = joblib.load(get_model_path("scaler.joblib"))
         feature_cols = joblib.load(get_model_path("feature_columns.joblib"))
         return model, scaler, feature_cols
     except Exception as e:
@@ -305,19 +305,19 @@ model, scaler, feature_columns = load_assets()
 if model is not None:
     with st.form("prediction_form"):
 
-        # ── ROW 1: Demographics ──
+        # demographics
         st.markdown('<div class="section-card"><div class="section-title blue">👤 Demographics</div>', unsafe_allow_html=True)
         c1, c2, c3, c4, c5 = st.columns(5)
-        gender     = c1.selectbox("Gender",          ["Male", "Female"])
-        senior     = c2.selectbox("Senior Citizen",  ["No", "Yes"])
-        partner    = c3.selectbox("Partner",          ["Yes", "No"])
+        gender = c1.selectbox("Gender",          ["Male", "Female"])
+        senior = c2.selectbox("Senior Citizen",  ["No", "Yes"])
+        partner = c3.selectbox("Partner",          ["Yes", "No"])
         dependents = c4.selectbox("Dependents",       ["No", "Yes"])
-        tenure     = c5.number_input("Tenure (Months)", min_value=0, max_value=100, value=12)
+        tenure = c5.number_input("Tenure (Months)", min_value=0, max_value=100, value=12)
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="fancy-divider"></div>', unsafe_allow_html=True)
 
-        # ── ROW 2: Services ──
+        # services
         st.markdown('<div class="section-card"><div class="section-title purple">📡 Services</div>', unsafe_allow_html=True)
         s1, s2, s3, s4, s5, s6, s7 = st.columns(7)
         phone    = s1.selectbox("Phone Service",    ["Yes", "No"])
@@ -331,7 +331,7 @@ if model is not None:
 
         st.markdown('<div class="fancy-divider"></div>', unsafe_allow_html=True)
 
-        # ── ROW 3: Billing ──
+        # billing
         st.markdown('<div class="section-card"><div class="section-title pink">💳 Billing & Contract</div>', unsafe_allow_html=True)
         b1, b2, b3, b4, b5 = st.columns(5)
         contract  = b1.selectbox("Contract Type",    ["Month-to-month", "One year", "Two year"])
@@ -345,7 +345,7 @@ if model is not None:
         st.markdown("<br>", unsafe_allow_html=True)
         submitted = st.form_submit_button("⚡ Analyze Churn Risk")
 
-    # ── RESULT ──
+    # result
     if submitted:
         raw_data = {
             "gender": gender, "SeniorCitizen": senior, "Partner": partner,
@@ -359,17 +359,17 @@ if model is not None:
             "TotalCharges": total
         }
 
-        df           = pd.DataFrame([raw_data])
+        df = pd.DataFrame([raw_data])
         df_processed = preprocess(df)
         df_processed = df_processed.reindex(columns=feature_columns, fill_value=0)
 
         continuous_cols = ['tenure', 'MonthlyCharges', 'TotalCharges', 'Average']
         df_processed[continuous_cols] = scaler.transform(df_processed[continuous_cols])
 
-        prediction  = model.predict(df_processed)[0]
+        prediction = model.predict(df_processed)[0]
         probability = model.predict_proba(df_processed)[0]
 
-        churn_pct     = round(probability[1] * 100, 1)
+        churn_pct = round(probability[1] * 100, 1)
         retention_pct = round(probability[0] * 100, 1)
 
         if prediction == 1:
